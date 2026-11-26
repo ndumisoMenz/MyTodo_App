@@ -1,0 +1,104 @@
+@model IEnumerable<Todo_Application.Models.Todo>
+
+@* @{
+    ViewData["Title"] = "Index";
+} *@
+
+<h3>Index</h3>
+
+@if (User.IsInRole("User"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<form asp-action="Index" method="get" class="row mb-3">
+    <div class="col-md-4">
+        <input type="text" name="searchString" value="@ViewBag.Pagination?.SearchString" class="form-control" placeholder="Search by title, or user"/>
+    </div>
+    <div class="col-md-3">
+        <select name="statusFilter" class="form-control">
+            <option value="">All Todos</option>
+            <option value="Completed" selected="@(ViewBag.Pagination?.StatusFilter=="Completed")">Completed</option>
+            <option value="NotCompleted" selected="@(ViewBag.Pagination?.StatusFilter=="NotCompleted")">Not Completed</option>
+         </select>
+    </div>
+        <div class="col-md-3">
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-action="Index" class="btn btn-secondary">Clear</a>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isComplted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.Title)
+            </td>
+            <td>
+                    @if (item.isComplted)
+                    {
+                        <i class="bi bi-check-circle-fill text-success fs-4"></i>
+                    }
+                    else
+                    {
+                        <i class="bi bi-x-circle-fill text-danger fs-4"></i>
+                    }
+                </td>
+            <td>
+                @Html.DisplayFor(model => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.User.UserName)
+            </td>
+                
+            <td>
+                @if (User.IsInRole("User"))
+                {
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> @:|
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> @:|
+                <form asp-action="Toggle" asp-route-id="@item.Id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-sm @(item.isComplted? "btn-success":"btn-outline-secondary")">
+                        @(item.isComplted ? "Completed":"Mark Complete")
+                    </button>
+
+                </form>
+                }
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<partial name="_Pagination" model="ViewBag.Pagination"/>

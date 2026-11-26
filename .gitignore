@@ -1,0 +1,15 @@
+bin/
+obj/
+.vs/
+.vscode/
+TestResults/
+*.user
+*.suo
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Secrets.json
+*.db
+wwwroot/lib/
+publish/
+.env/
+*.env.local

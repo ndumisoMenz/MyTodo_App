@@ -1,0 +1,147 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    bool isManager = User.IsInRole("Manager") || User.IsInRole("Admin");
+}
+
+<!-- HERO -->
+<div class="py-5 my-4 rounded-3 bg-dark text-white">
+    <div class="container py-5 text-center">
+        <span class="badge bg-primary px-3 py-2 mb-3">TODO APPLICATION</span>
+        <h1 class="display-4 fw-bold">Get more done,<br />every day.</h1>
+        <p class="lead col-lg-7 mx-auto text-white-50">
+            Keep all your tasks in one place. Create todos, track them,
+            and mark them done.
+        </p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <a asp-controller="Todoes" asp-action="Index" class="btn btn-primary btn-lg px-4">
+                    View My Todos →
+                </a>
+                <a asp-controller="Todos" asp-action="Create" class="btn btn-outline-light btn-lg px-4">
+                    + Create Todo
+                </a>
+
+                @if (isManager)
+                {
+                    <a asp-controller="Roles" asp-action="Index" class="btn btn-outline-light btn-lg px-4">
+                        Manage Roles
+                    </a>
+                }
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg px-4">
+                    Get Started — It's Free
+                </a>
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-light btn-lg px-4">
+                    Login
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- WHAT YOU CAN DO -->
+<div class="container my-5">
+    <h2 class="text-center fw-bold mb-4">What you can do</h2>
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <h3>✓</h3>
+                    <h5 class="fw-bold">Create Todos</h5>
+                    <p class="text-muted">Every user can do this. Add a task, set a due date and priority.</p>
+                    <a asp-controller="Todos" asp-action="Index" class="btn btn-outline-primary btn-sm">My Todos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <h3>📝</h3>
+                    <h5 class="fw-bold">Manage Your Todos</h5>
+                    <p class="text-muted">Edit, complete, or delete your own todos. Only yours.</p>
+                    <a asp-controller="Todos" asp-action="Index" class="btn btn-outline-primary btn-sm">Manage Todos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body p-4">
+                    <h3>📊</h3>
+                    <h5 class="fw-bold">Track Progress</h5>
+                    <p class="text-muted">See what is done, what is still pending, and what is overdue.</p>
+                    <a asp-controller="Todos" asp-action="Index" class="btn btn-outline-primary btn-sm">Track Progress</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MANAGER ONLY SECTION - normal users will NOT see this -->
+@if (isManager)
+{
+    <div class="container my-5">
+        <div class="bg-light rounded-3 p-4 p-md-5">
+            <h2 class="fw-bold text-center">Manager Tools</h2>
+            <p class="text-center text-muted">You have a Manager role, so you get extra access.</p>
+            <div class="row g-4 mt-3">
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4 text-center">
+                            <h3>🔒</h3>
+                            <h5 class="fw-bold">Create & Manage Roles</h5>
+                            <p class="text-muted">Create new roles and give users a Manager role.</p>
+                            <a asp-controller="Roles" asp-action="Index" class="btn btn-dark btn-sm">Manage Roles</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body p-4 text-center">
+                            <h3>👥</h3>
+                            <h5 class="fw-bold">Manage Users</h5>
+                            <p class="text-muted">See all users and manage who has access to what.</p>
+                            <a asp-controller="Users" asp-action="Index" class="btn btn-dark btn-sm">Manage Users</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- HOW IT WORKS -->
+<div class="container my-5">
+    <div class="row align-items-center bg-light rounded-3 p-4 p-md-5">
+        <div class="col-md-6">
+            <h2 class="fw-bold">How it works</h2>
+            <ol class="fs-5 mt-3">
+                <li class="mb-2"><strong>Register</strong> — you start as a normal User</li>
+                <li class="mb-2"><strong>Create Todos</strong> — add your own tasks</li>
+                <li class="mb-2"><strong>Get promoted</strong> — a Manager can give you a Manager role, then you unlock Roles + Users</li>
+            </ol>
+        </div>
+        <div class="col-md-6 text-center">
+            <div class="bg-white border rounded-3 p-4 shadow-sm text-start">
+                <p class="fw-bold mb-1">✅ Finish project report</p>
+                <small class="text-muted">Due: Today • Priority: High</small>
+                <hr />
+                <p class="fw-bold mb-1">📝 Prepare team meeting</p>
+                <small class="text-muted">Due: Tomorrow • Priority: Medium</small>
+                <hr />
+                <p class="fw-bold mb-1 text-decoration-line-through text-muted">📧 Reply to client emails</p>
+                <small class="text-muted">Done • Priority: Low</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="text-center my-5">
+    <h3 class="fw-bold">Ready to get organised?</h3>
+    <p class="text-muted">Start with your first todo today.</p>
+    <a asp-controller="Todos" asp-action="Index" class="btn btn-dark btn-lg px-5">Go to Todos</a>
+</div>
