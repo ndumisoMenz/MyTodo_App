@@ -19,7 +19,14 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+using var scope = app.Services.CreateScope();
+
+var db=scope.ServiceProvider.GetService<ApplicationDbContext>();
+
+db.Database.Migrate();
+
 await SeedData.SeedAsync(app.Services);
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
