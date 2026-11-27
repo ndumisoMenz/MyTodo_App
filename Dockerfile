@@ -1,9 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-COPY ["Todo_Application.sln", "./"]
 COPY ["Todo_Application/Todo_Application.csproj", "Todo_Application/"]
-RUN dotnet restore "Todo_Application.sln"
+RUN dotnet restore "Todo_Application/Todo_Application.csproj"
 
 COPY . .
 
